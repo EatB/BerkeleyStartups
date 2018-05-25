@@ -1,0 +1,26 @@
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'database/style.css' %}" />
+<div class="support-grid"></div>
+<div class="band">
+    {% if all_companies %}
+    {% for c in all_companies %}
+    <div class="item-{{ forloop.counter }}">
+          <a href="{{c.company_website}}" class="card">
+            <div class="thumb" style="background-image: url({{c.company_image_url}});"></div>
+            <article>
+              <h1>{{ c.company_name }}</h1>
+              <span>{{c.company_description}}</span>
+            </article>
+          </a>
+    </div>
+    {% endfor %}
+  {% else %}
+      <p>No companies are available.</p>
+  {% endif %}
+</div>
+
+<form action="/database/search/" method="get">
+    <input type="text" name="q">
+    <input type="submit" value="Search">
+</form>
