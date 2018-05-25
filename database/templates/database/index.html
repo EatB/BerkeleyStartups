@@ -1,6 +1,17 @@
 {% load static %}
 
 <link rel="stylesheet" type="text/css" href="{% static 'database/style.css' %}" />
+
+<div class="topnav">
+  <a class="active" href="#home">Home</a>
+  <a href="#about">About</a>
+  <a href="#contact">Contact</a>
+  <form action="/database/search/" method="get">
+      <input type="text" name="q" placeholder="Search..">
+  </form>
+</div>
+
+
 <div class="support-grid"></div>
 <div class="band">
     {% if all_companies %}
@@ -19,8 +30,3 @@
       <p>No companies are available.</p>
   {% endif %}
 </div>
-
-<form action="/database/search/" method="get">
-    <input type="text" name="q">
-    <input type="submit" value="Search">
-</form>
