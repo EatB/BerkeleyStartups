@@ -4,7 +4,7 @@ from django.http import HttpResponse
 from .models import Company
 # Create your views here.
 def index(request):
-    all_companies = Company.objects.order_by('-pub_date')[:5]
+    all_companies = Company.objects.order_by('-pub_date')
     context = {'all_companies':all_companies}
     return render(request, 'database/index.html', context)
 

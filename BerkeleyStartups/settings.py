@@ -85,7 +85,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'USER': 'admin',
-        'PASSWORD': 'XXX',
+        'PASSWORD': 'wuxiaohua1011',
         'HOST': 'localhost',
         'NAME': 'django',
     }
