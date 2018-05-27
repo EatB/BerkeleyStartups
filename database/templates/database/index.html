@@ -14,7 +14,10 @@ function showSlider() {
 
 // Close the dropdown if the user clicks outside of it
 window.onclick = function(e) {
-  if (!e.target.matches('.dropbtn') || !e.target.match('.slider')) {
+  var className = e.target.classList[0];
+  console.log(document.getElementById("myDropdown").classList);
+  if (!(className == "dropbtn" || className == "tag_choice" || className == "slider")) {
+    console.log(className);
     var myDropdown = document.getElementById("myDropdown");
     var mySlider = document.getElementById("mySlider");
       if (myDropdown.classList.contains('show')) {
@@ -23,16 +26,17 @@ window.onclick = function(e) {
       if (mySlider.classList.contains('show')) {
         mySlider.classList.remove('show');
       }
-  }
+  } 
+
+  var slider = document.getElementById("slider");
+  var output = document.getElementById("output");
+  output.innerHTML = slider.value;
 }
 
-var slider = document.querySelector("slider");
-var output = document.querySelector("output");
-output.innerHTML = slider.value;
+</script>
 
-slider.addEventListener('slider', function(){
-  output.innerHTML = slider.value;
-});
+<script>
+
 </script>
 <style>
 .dropdown {
@@ -65,7 +69,7 @@ slider.addEventListener('slider', function(){
     z-index: 1;
 }
 
-.dropdown-content a {
+.dropdown-content a, option {
     float: none;
     color: black;
     padding: 12px 16px;
@@ -74,7 +78,7 @@ slider.addEventListener('slider', function(){
     text-align: left;
 }
 
-.dropdown-content a:hover {
+.dropdown-content a:hover , option{
     background-color: #ddd;
 }
 
@@ -128,6 +132,7 @@ slider.addEventListener('slider', function(){
     <!-- <img src = "{% static "database/images/logo.png" %}" alt="My image" height="20px"> -->
     Entrepreneurs @ Berkeley
   </a>
+  <!-- tag filter -->
   <div class="dropdown">
       <button class="dropbtn" onclick="showDropdown()">
         <i class="fa fa-caret-down"></i>
@@ -135,37 +140,41 @@ slider.addEventListener('slider', function(){
         <i class="fa fa-caret-down"></i>
     </button>
     <div class="dropdown-content" id="myDropdown">
-      <a href="#">Link 1</a>
-      <a href="#">Link 2</a>
-      <a href="#">Link 3</a>
+      {%if all_tags %}
+          <form action="/database/filter_by_tag/" method = "get">
+            <select name="tag" multiple>
+              {% for tag in all_tags %}
+                <option class = "tag_choice" value="{{tag}}">{{tag}}</option>
+              {% endfor %}
+            </select>
+            <input type="submit">
+          </form>
+      {% endif %}
     </div>
   </div>
 
+  <!-- size filter (range selector) -->
   <div class="dropdown">
       <button class="dropbtn" onclick="showSlider()">
         <i class="fa fa-caret-down"></i>
         Company Size
         <i class="fa fa-caret-down"></i>
-    </button>
+      </button>
     <div class="dropdown-content" id="mySlider">
-      <div class="""slidecontainer">
-        <input type="range" min="1" max="100" value="1" class="slider" id="slider">
-        <p id="output"> Size: </p>
+      <div class="slidecontainer">
+        <form action="/database/filter_by_size/" method="get">
+          <input type="range" min="1" max="100" value="1" class="slider" id="slider" name = "slider">
+          <p>Size: <span id="output">1</span>+</p>
+          <input type="submit">
+        </form>
       </div>
     </div>
   </div>
+
   <form action="/database/search/" method="get">
-      <input type="text" name="q" placeholder="Search..">
+    <input type="text" name="query" placeholder="Search..">
   </form>
 </div>
-
-
-
-
-
-
-
-
 
 
 <div class="band">

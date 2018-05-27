@@ -1,6 +1,7 @@
 # BerkeleyStartups
 ### Set up
 1. Download [Django](https://www.djangoproject.com/download/)
+  a. pip install Django==2.0.5
 2. Download [mySql](https://dev.mysql.com/downloads/mysql/)  
     a. Choose the Community Server  
     b. Download your corresponding version macOS YOUR VERSION, Compressed TAR Archive
@@ -39,4 +40,3 @@ OK, you should be good to go now
     python manage.py sqlmigrate database 0001  
     python manage.py migrate  
     python manage.py runserver  
-    

@@ -10,7 +10,13 @@ class Company(models.Model):
     company_email = models.EmailField(blank = True)
     company_description = models.TextField(default = "No Description Available")
     company_image_url = models.URLField(("Company Image URL"), default = "http://www.gladessheriff.org/media/images/most%20wanted/No%20image%20available.jpg")
-    company_tags = TaggableManager()
+    company_tags = TaggableManager(blank = True)
 
     def __str__(self):
         return self.company_name
+
+    def get_tags(self):
+        tags = []
+        for tag in self.company_tags.all():
+            tags.append(str(tag))
+        return tags
