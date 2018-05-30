@@ -13,55 +13,54 @@ def index(request):
 
 
 def search(request):
+    all_tags = Tag.objects.all().order_by('name')
     # check if request contains query and that query is not empty
-    if 'query' in request.GET and request.GET['query']:
-        query = request.GET['query']
+    if 'search' in request.GET and request.GET['search']:
+        query = request.GET['search']
         filtered = Company.objects.filter(company_name__icontains = query)
-        context = {'all_companies':filtered}
-        return render(request, 'database/index.html', context)
-    return index(request)
+        context = {'all_companies':filtered,
+                    'all_tags' : all_tags,}
+        return filtered
+    #     return render(request, 'database/index.html', context)
+    # return index(request)
 
 def filter_by_tag(request):
+    all_tags = Tag.objects.all().order_by('name')
     if 'tag' in request.GET and request.GET['tag']:
         tags = [request.GET['tag']]
         filtered = Company.objects.filter(company_tags__name__in = tags)
-        context = {'all_companies' : filtered}
-        return render(request, 'database/index.html', context)
-    return index(request);
+        context = {'all_companies':filtered,
+                    'all_tags' : all_tags,}
+        return filtered
+        #     return render(request, 'database/index.html', context)
+        # return index(request);
 
 def filter_by_size(request):
+    all_tags = Tag.objects.all().order_by('name')
     if 'slider' in request.GET and request.GET['slider']:
         minNum = request.GET['slider']
         # gte = greater than equal to
         filtered = Company.objects.filter(number_of_employee__gte = minNum)
-        context = {'all_companies' : filtered}
-        return render(request, 'database/index.html', context)
-    return index(request);
+        context = {'all_companies':filtered,
+                    'all_tags' : all_tags,}
+        return filtered
 
 def query(request):
-    query_filtered = []
-    tag_filtered = []
-    slider_filtered = []
-    if 'query' in request.GET and request.GET['query']:
-        query = request.GET['query']
-        query_filtered = Company.objects.filter(company_name__icontains = query)
-    if 'tag' in request.GET and request.GET['tag']:
-        tags = [request.GET['tag']]
-        tag_filtered = Company.objects.filter(company_tags__name__in = tags)
-    if 'slider' in request.GET and request.GET['slider']:
-        minNum = request.GET['slider']
-        # gte = greater than equal to
-        slider_filtered = Company.objects.filter(number_of_employee__gte = minNum)
-    filtered = union(query_filtered, tag_filtered)
-    filtered = union(filtered, slider_filtered)
-    if filtered == []:
-        print('here')
-        return index(request)
-    else:
-        print(filtered)
-        context = {'all_companies' : filtered}
-        return render(request, 'database/index.html', context)
+    all_tags = Tag.objects.all().order_by('name')
+    search_filtered = search(request)
+    tag_filtered = filter_by_tag(request)
+    size_filtered = filter_by_size(request)
+    filtered = size_filtered._chain()
+    print(tag_filtered)
+    if(search_filtered != None):
+        filtered = search_filtered.intersection(size_filtered);
+    if tag_filtered != None:
+        filtered = filtered.intersection(tag_filtered)
+    context = {'all_companies':filtered,
+                'all_tags' : all_tags,}
+    return render(request, 'database/index.html', context)
 
+#this is wrong
 def union(l1, l2):
     result = [i for i in l1]
     temp = [i for i in l2]

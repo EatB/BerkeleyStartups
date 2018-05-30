@@ -51,60 +51,48 @@ window.onclick = function(e){
 
     <!-- tag filter -->
     <div class="dropdown">
-        <button class="company_type_toggle dropbtn">
+      <form action="/database/query/" method="get">
+        <a class="company_type_toggle dropbtn">
           <i class="fa fa-caret-down"></i>
           Type
           <i class="fa fa-caret-down"></i>
-        </button>
+        </a>
       <div class="dropdown-content" id="myDropdown">
         {%if all_tags %}
-            <form action="/database/filter_by_tag/" method = "get">
-              <select name="tag" multiple>
-                {% for tag in all_tags %}
-                  <option class = "tag_choice" value="{{tag}}">{{tag}}</option>
-                {% endfor %}
-              </select>
-              <input type="submit"/>
-            </form>
+          <select name="tag" multiple>
+            {% for tag in all_tags %}
+              <option class = "tag_choice" value="{{tag}}">{{tag}}</option>
+            {% endfor %}
+          </select>
         {% endif %}
       </div>
     </div>
 
     <!-- size filter (range selector) -->
     <div class="dropdown">
-        <button class="slider_toggle dropbtn">
+        <a class="slider_toggle dropbtn">
           <i class="fa fa-caret-down"></i>
           Company Size
           <i class="fa fa-caret-down"></i>
-        </button>
+        </a>
       <div class="dropdown-content" id="mySlider">
         <div class="slidecontainer">
-          <form action="/database/filter_by_size/" method="get">
             <input type="range" min="1" max="100" value="1" class="slider" id="slider" name = "slider"/>
             <p>Size: <span id="output">1</span>+</p>
-            <input type="submit">
-          </form>
         </div>
       </div>
     </div>
-    <div class= "topnav_right">
-        <form action="/database/search/" method="get">
-            <input type="text" name="search" placeholder="Search.."/>
-            <input type="submit" name="query" value="submit"/>
-        </form>
-        <input type="button" name="clear" value="clear"/>
+    <div class= "topnav_right" >
+      <input type="text" name="search" placeholder="Search.."/>
+      <input type="submit"/>
+      <a> clear </a>
     </div>
-    <!-- <div>
-      <form action="/database/search/" method="get">
-          <input type="text" name="query" placeholder="Search..">
-      </form>
-    </div> -->
+  </form>
 </div>
 <style>
 .topnav_right{
-  float:right;
+  display: inline-flex;
 }
-
 
 </style>
 
