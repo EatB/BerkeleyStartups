@@ -84,7 +84,7 @@ WSGI_APPLICATION = 'BerkeleyStartups.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'USER': 'admin',
+        'USER': 'root',
         'PASSWORD': 'wuxiaohua1011',
         'HOST': 'localhost',
         'NAME': 'django',

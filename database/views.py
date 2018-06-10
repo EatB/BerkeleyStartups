@@ -31,6 +31,7 @@ def filter_by_tag(request):
         filtered = Company.objects.filter(company_tags__name__in = tags)
         # context = {'all_companies':filtered,
         #             'all_tags' : all_tags,}
+        print(filtered)
         return filtered
         #     return render(request, 'database/index.html', context)
         # return index(request);
@@ -50,7 +51,6 @@ def query(request):
     search_filtered = search(request) # search_filtered = None when no search entered
     tag_filtered = filter_by_tag(request)
     size_filtered = filter_by_size(request)
-    print('size_filtered=', list(size_filtered))
     # filtered = Company.objects.filter(company_tags__in=list(size_filtered))
     filtered = size_filtered
     if(search_filtered != None):
