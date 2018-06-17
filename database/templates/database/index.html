@@ -294,6 +294,9 @@ html {
   margin: 0px 0px;
   cursor: pointer;
 }
+.topnav_right #search_textfield {
+  margin: 5px;
+}
 .tag_choice {
   background-color: white;
   cursor: pointer;
@@ -313,6 +316,8 @@ html {
 .tag_choice :focus{
   background-color: red;
 }
+
+
 </style>
 <div class="topnav">
   <div>
@@ -356,9 +361,9 @@ html {
       </div>
     </div>
     <div class= "topnav_right" >
-      <input type="text" name="search" placeholder="Search.."/>
+      <input id="search_textfield" type="text" name="search" placeholder="Search.."/>
       <input type="submit" id = "submit"/>
-      <a id = "clear"> Clear </a>
+      <a id = "clear" href="/database"> Clear </a>
     </div>
   </form>
 </div>
@@ -392,10 +397,16 @@ html {
     box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
 }
 </style>
+
 <div class="querynav" >
-  <button class="button button2">鼠标悬停后出现阴影</button>
-  <button class="button button2">鼠标悬停后出现阴影</button>
-  <button class="button button2">鼠标悬停后出现阴影</button>
+  {% if all_companies %}
+    {% for c in all_companies %}
+      {% for t in c.company_tags.all %}
+      <!-- create a set and loop through to check duplicates -->
+        <button class="button button2">{{t}}</button>
+      {% endfor %}
+    {% endfor %}
+  {% endif %}
 </div>
 
 <div class="band">
