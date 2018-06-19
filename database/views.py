@@ -27,11 +27,10 @@ def search(request):
 def filter_by_tag(request):
     # all_tags = Tag.objects.all().order_by('name')
     if 'tag' in request.GET and request.GET['tag']:
-        tags = [request.GET['tag']]
+        tags = request.GET.getlist("tag")
         filtered = Company.objects.filter(company_tags__name__in = tags)
         # context = {'all_companies':filtered,
         #             'all_tags' : all_tags,}
-        print(filtered)
         return filtered
         #     return render(request, 'database/index.html', context)
         # return index(request);
@@ -51,23 +50,24 @@ def query(request):
     search_filtered = search(request) # search_filtered = None when no search entered
     tag_filtered = filter_by_tag(request)
     size_filtered = filter_by_size(request)
-    # filtered = Company.objects.filter(company_tags__in=list(size_filtered))
     filtered = size_filtered
     if(search_filtered != None):
         filtered = filtered & search_filtered
     if(tag_filtered != None):
         filtered = filtered & tag_filtered
-    context = {'all_companies':filtered,
-                'all_tags' : all_tags,}
-    return render(request, 'database/index.html', context)
+        # querysets = [c.company_tags.all() for c in filtered]
+        # user_entered_tag_names = []
+        # if 'tag' in request.GET and request.GET['tag']:
+        #     user_entered_tag_names = [request.GET['tag']]
+        # for qs in querysets:
+        #     for t in qs:
+        #         for name in user_entered_tag_names:
+        #             if t.name == name and t not in selected_tags:
+        #                 selected_tags.append(t)
 
-#this is wrong
-def union(l1, l2):
-    result = [i for i in l1]
-    temp = [i for i in l2]
-    for i2 in l2:
-        for t in temp:
-            if i2 == t:
-                temp.remove(i2)
-    result.append(l2)
-    return result
+    selected_tags = request.GET.getlist("tag")
+    context = {'all_companies':filtered,
+                'all_tags' : all_tags,
+                'selected_tags': selected_tags,}
+
+    return render(request, 'database/index.html', context)

@@ -389,22 +389,16 @@ html {
   display: inline-table;
   width: 100%;
 }
-
-.button1 {
-    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
-}
 .button2:hover {
     box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+    font-size: 14px;
 }
 </style>
 
 <div class="querynav" >
-  {% if all_companies %}
-    {% for c in all_companies %}
-      {% for t in c.company_tags.all %}
-      <!-- create a set and loop through to check duplicates -->
-        <button class="button button2">{{t}}</button>
-      {% endfor %}
+  {% if selected_tags %}
+    {% for t in selected_tags %}
+        <span class="button button2">{{t}} &xotime;</span>
     {% endfor %}
   {% endif %}
 </div>
